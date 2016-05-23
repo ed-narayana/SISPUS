@@ -3,82 +3,59 @@ include "../../config/library_config.php";
 include "../../config/fungsi_model_data.php";
 switch($_GET['act']){
 	case 'tambah':
-		if(isset($_POST['nama'])){
-			$conn = MysqlConnectionOpen();
-			$sukses = 1;
+		if(isset($_POST['Submit'])){
 			$input = array(
-				$_POST['nama'],
-				$_POST['wilayah'],
-				$_POST['tgl_pinjam'],
-				$_POST['tgl_harus_kembali'],
-				0
+				'nama_admin' => '"'.$_POST['nama'].'"',
+				'username'	 => '"'.$_POST['username'].'"',
+				'password'	 => '"'.md5($_POST['password']).'"',
+				'id_wilayah_admin' => $_POST['wilayah']
 			);
-			$table = array('master_transaksi', 'detail_transaksi');
-			$query = '	INSERT INTO '.$table[0].'
-						VALUES(
-							NULL,
-							'.$input[0].',
-							'.$input[1].',
-							"'.$input[2].'",
-							"'.$input[3].'",
-							NULL,
-							NULL,
-							'.$input[4].'
-						);
-			';
-			$exec = mysqli_query($conn, $query);
-			if($exec){
-				$last_id = mysqli_insert_id($conn);
+			$table = 'admin';
+			$insert = insert($table, $input);
+			if($insert){
+				set_flashdata('sukses', 'Data nama : '.$input['nama_admin'].' berhasil ditambah');
 			} else {
-				set_flashdata('error', 'tambah transaksi error');
-				break;
+				set_flashdata('error', 'Data nama : '.$input['nama_admin'].' gagal ditambah');
 			}
-			$sukses = $sukses && $exec;
-			do{
-				$pinjam = current($_POST['pinjam']);
-				$jumlah = current($_POST['jumlah']);
-				$query = '	INSERT INTO '.$table[1].'
-							VALUES(
-								NULL,
-								'.$last_id.',
-								'.$pinjam.',
-								'.$jumlah.'
-							);
-				';
-				$exec = mysqli_query($conn, $query);
-				$sukses = $sukses && $exec;
-			}while(next($_POST['pinjam']) && next($_POST['jumlah']));
 		}
 	break;
 	
 	case 'update':
 		if(isset($_POST['Submit'])){
-			$clause = array('id_master_transaksi' => $_POST['id']);
-			$input = array(
-				'tgl_kembali' => '"'.$_POST['tgl_kembali'].'"',
-				'denda'	 => $_POST['denda'],
-				'status' => 1
-			);
-			$table = 'master_transaksi';
+			$clause = array('id_admin' => $_POST['id']);
+			if(!empty($_POST['password'])){
+				$input = array(
+					'nama_admin' => '"'.$_POST['nama'].'"',
+					'username'	 => '"'.$_POST['username'].'"',
+					'password'	 => '"'.md5($_POST['password']).'"',
+					'id_wilayah_admin' => $_POST['wilayah'],
+				);	
+			} else {
+				$input = array(
+					'nama_admin' => '"'.$_POST['nama'].'"',
+					'username'	 => '"'.$_POST['username'].'"',
+					'id_wilayah_admin' => $_POST['wilayah'],
+				);
+			}
+			$table = 'admin';
 			$update = update($table, $input, $clause);
 			if($update){
-				set_flashdata('sukses', 'Update data id : '.$clause['id_master_transaksi'].' berhasil.');
+				set_flashdata('sukses', 'Update data id : '.$clause['id_admin'].' berhasil.');
 			} else {
-				set_flashdata('error', 'Update data id : '.$clause['id_master_transaksi'].' gagal.');
+				set_flashdata('error', 'Update data id : '.$clause['id_admin'].' gagal.');
 			}
 		}
 	break;
 	
 	case 'delete':
-		$table  = array('detail_transaksi', 'master_transaksi');
-		$clause = array('id_master_transaksi' => $_GET['id']);
-		
-		if(delete($table[0],$clause) && delete($table[1], $clause)){
-			set_flashdata('sukses', 'Delete data id : '.$clause['id_master_transaksi'].' berhasil.');
+		$table  = 'admin';
+		$clause = array('id_admin' => $_GET['id']);
+		$delete = delete($table, $clause);
+		if($delete){
+			set_flashdata('sukses', 'Delete data id : '.$clause['id_admin'].' berhasil.');
 		} else {
-			set_flashdata('error', 'Delete data id : '.$clause['id_master_transaksi'].' gagal.');
+			set_flashdata('error', 'Delete data id : '.$clause['id_admin'].' gagal.');
 		}
 	break;
 }
-//exit();
-redirect(base_url("index.php?page=transaksi"));
+redirect(base_url("index.php?page=admin"));
