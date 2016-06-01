@@ -14,7 +14,7 @@ function data_kategori(){
 	foreach ($kategori as $data){
 		$id = $data['id_kategori'];
 		$update = base_url('index.php?page=kategori&act=update&id='.$data['id_kategori']);
-		$delete = base_url('modul/mod_kategori/aksi_kategori.php?act=delete_kategori&id='.$data['id_kategori]');
+		$delete = base_url('modul/mod_kategori/aksi_kategori.php?act=delete_kategori&id='.$data['id_kategori']);
 		echo '
 			<tr>
 				<td>'.$id.'</td>
@@ -32,7 +32,7 @@ function data_kategori(){
 					</a>
 				</td>
 			</tr>
-			';
+		';
 	}
 	echo '</table>';
 }
@@ -112,8 +112,9 @@ function form_update(){
 function form($act){
 	if($act == 'update'){
 		form_update();
-	} else {
-		form_tambah();
+	}
+	else{
+		from_tambah();
 	}
 }
 
