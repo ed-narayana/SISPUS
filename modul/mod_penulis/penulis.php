@@ -45,12 +45,10 @@ function data_penulis(){
 function form_tambah(){
 	$action = base_url("modul/mod_penulis/aksi_penulis.php?act=simpan_penulis");
 	$penulis = fetch_data('penulis');
-	$list = '';
-	foreach ($penulis as $data) {
-		$list .= '<option value="'.$data['id_penulis'].'">'.$data['nama_penulis'].'</option>',
-				 '<option value="'.$data['id_penulis'].'">'.$data['alamat_penulis'].'</option>',
-				 '<option value="'.$data['id_penulis'].'">'.$data['telp_penulis'].'</option>';
-	}
+	//$list = '';
+	/*foreach ($penulis as $data) {
+		$list .= '<option value="'.$data['id_penulis'].'">'.$data['nama_penulis'].'</option>';
+	}*/
 	echo '
 		<div class="panel panel-default">
 			<div class="panel-heading">Tambah Data</div>
@@ -96,7 +94,7 @@ function form_update(){
 		set_flashdata('error', 'Data id : '.$_GET['id'].' tidak ditemukan.');
 		redirect(base_url('index.php?page=penulis'));
 	}
-	$action = base_url('modul/mod_wilayah/aksi_wilayah.php?act=update_wilayah');
+	$action = base_url('modul/mod_penulis/aksi_penulis.php?act=update_penulis');
 
 	echo '
 		<div class="panel panel-default">
@@ -105,12 +103,22 @@ function form_update(){
 				<form action="'.$action.'" method="POST">
 					<div class="form-group">
 						<label for="id">ID</label>
-						<input type="text" class="form-control" id="id" name="id_wilayah" value="'.$data[0]['id_wilayah'].'" readonly="readonly" />
+						<input type="text" class="form-control" id="id" name="id_penulis" value="'.$data[0]['id_penulis'].'" readonly="readonly" />
 					</div>
 
 					<div class="form-group">
-						<label for="nama">Nama Wilayah</label>
-						<input type="text" class="form-control" id="nama" name="nama_wilayah" value="'.$data[0]['nama_wilayah'].'" />
+						<label for="nama">Nama Penulis</label>
+						<input type="text" class="form-control" id="nama" name="nama_penulis" value="'.$data[0]['nama_penulis'].'" />
+					</div>
+
+					<div class="form-group">
+						<label for="alamat">Alamat Penulis</label>
+						<input type="text" class="form-control" id="alamat" name="alamat_penulis" value="'.$data[0]['alamat_penulis'].'" />
+					</div>
+
+					<div class="form-group">
+						<label for="telepon">No Telepon Penulis</label>
+						<input type="text" class="form-control" id="telepon" name="telepon_penulis" value="'.$data[0]['telp_penulis'].'" />
 					</div>
 
 					<div class="form-group">
@@ -118,7 +126,7 @@ function form_update(){
 						&nbsp;
 						<input type="reset" class="btn btn-default" name="Reset" value="Reset" />
 						&nbsp;
-						<a href="'.base_url('index.php?page=wilayah').'" class="btn btn-default">Kembali</a>
+						<a href="'.base_url('index.php?page=penulis').'" class="btn btn-default">Kembali</a>
 					</div>
 				</form>
 			</div>

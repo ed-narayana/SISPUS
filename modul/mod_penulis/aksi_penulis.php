@@ -12,7 +12,7 @@ switch($_GET['act']){
 			$input = array(
 				'nama_penulis' => '"'.$_POST['nama_penulis'].'"',
 				'alamat_penulis' => '"'.$_POST['alamat_penulis'].'"',
-				'telepon_penulis' => '"'.$_POST['telp_penulis'].'"'
+				'telp_penulis' => '"'.$_POST['telepon_penulis'].'"'
 			);
 			$table = 'penulis';
 			$insert = insert($table, $input);
@@ -24,30 +24,32 @@ switch($_GET['act']){
 		}
   break;
 
-	case 'update_wilayah':
+	case 'update_penulis':
 		if(isset($_POST['Submit'])){
-			$clause = array('id_wilayah' => $_POST['id_wilayah']);
+			$clause = array('id_penulis' => $_POST['id_penulis']);
 			$input = array(
-				'nama_wilayah' => '"'.$_POST['nama_wilayah'].'"'
+				'nama_penulis' => '"'.$_POST['nama_penulis'].'"',
+				'alamat_penulis' => '"'.$_POST['alamat_penulis'].'"',
+				'telp_penulis' => '"'.$_POST['telepon_penulis'].'"'
 			);
-			$table = 'wilayah';
+			$table = 'penulis';
 			$update = update($table, $input, $clause);
 			if($update){
-				set_flashdata('sukses', 'Update data id : '.$clause['id_wilayah'].' berhasil.');
+				set_flashdata('sukses', 'Update data id : '.$clause['id_penulis'].' berhasil.');
 			} else {
-				set_flashdata('error', 'Update data id : '.$clause['id_wilayah'].' gagal.');
+				set_flashdata('error', 'Update data id : '.$clause['id_penulis'].' gagal.');
 			}
 		}
 	break;
 
-	case 'delete_wilayah':
-		$table  = 'wilayah';
-		$clause = array('id_wilayah' => $_GET['id']);
+	case 'delete_penulis':
+		$table  = 'penulis';
+		$clause = array('id_penulis' => $_GET['id']);
 		$delete = delete($table, $clause);
 		if($delete){
-			set_flashdata('sukses', 'Delete data id : '.$clause['id_wilayah'].' berhasil.');
+			set_flashdata('sukses', 'Delete data id : '.$clause['id_penulis'].' berhasil.');
 		} else {
-			set_flashdata('error', 'Delete data id : '.$clause['id_wilayah'].' gagal.');
+			set_flashdata('error', 'Delete data id : '.$clause['id_penulis'].' gagal.');
 		}
 	break;
 
