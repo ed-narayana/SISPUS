@@ -2,8 +2,7 @@
 SQLyog Ultimate v8.61 
 MySQL - 5.5.5-10.1.10-MariaDB-log : Database - baster_perpustakaan
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -29,12 +28,12 @@ CREATE TABLE `admin` (
   `id_wilayah_admin` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_admin`),
   KEY `FK_wilayah_admin` (`id_wilayah_admin`),
-  CONSTRAINT `FK_wilayah_admin` FOREIGN KEY (`id_wilayah_admin`) REFERENCES `wilayah` (`id_wilayah`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_wilayah_admin` FOREIGN KEY (`id_wilayah_admin`) REFERENCES `wilayah` (`id_wilayah`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `admin` */
 
-insert  into `admin`(`id_admin`,`nama_admin`,`username`,`password`,`id_wilayah_admin`) values (1,'Puguh Sudarma','reroet','628a98554d657ca8aa0577b07d56b602',1),(2,'yuyuyuyuyuyu','puguh','23966d482db40212f5433c4279d7af84',1),(3,'Reroet','Reroet','628a98554d657ca8aa0577b07d56b602',3),(4,'Puguh Sudarma I Wayan','wayan','6f3792a964f0e3a5f06a35dfe609716c',2);
+insert  into `admin`(`id_admin`,`nama_admin`,`username`,`password`,`id_wilayah_admin`) values (1,'I Wayan Puguh Sudarma','reroet','628a98554d657ca8aa0577b07d56b602',1),(2,'Sudarma Reroet Kupluk','puguh','23966d482db40212f5433c4279d7af84',1),(3,'Gung wah','gungwah','628a98554d657ca8aa0577b07d56b602',2),(4,'I Wayan Puguh Sudarma Reroet','puguh','6f3792a964f0e3a5f06a35dfe609716c',1);
 
 /*Table structure for table `anggota` */
 
@@ -52,7 +51,7 @@ CREATE TABLE `anggota` (
   `tanggal_gabung` datetime DEFAULT NULL,
   PRIMARY KEY (`id_anggota`),
   KEY `FK_anggota_wilayah` (`id_wilayah`),
-  CONSTRAINT `FK_anggota_wilayah` FOREIGN KEY (`id_wilayah`) REFERENCES `wilayah` (`id_wilayah`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_anggota_wilayah` FOREIGN KEY (`id_wilayah`) REFERENCES `wilayah` (`id_wilayah`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 /*Data for the table `anggota` */
@@ -78,10 +77,10 @@ CREATE TABLE `buku` (
   KEY `FK_penerbit_buku` (`id_penerbit`),
   KEY `FK_penulis_buku` (`id_penulis`),
   KEY `FK_buku_wilayah` (`id_wilayah`),
-  CONSTRAINT `FK_buku_wilayah` FOREIGN KEY (`id_wilayah`) REFERENCES `wilayah` (`id_wilayah`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_kategori_buku` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_penerbit_buku` FOREIGN KEY (`id_penerbit`) REFERENCES `penerbit` (`id_penerbit`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_penulis_buku` FOREIGN KEY (`id_penulis`) REFERENCES `penulis` (`id_penulis`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_buku_wilayah` FOREIGN KEY (`id_wilayah`) REFERENCES `wilayah` (`id_wilayah`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_kategori_buku` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_penerbit_buku` FOREIGN KEY (`id_penerbit`) REFERENCES `penerbit` (`id_penerbit`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_penulis_buku` FOREIGN KEY (`id_penulis`) REFERENCES `penulis` (`id_penulis`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `buku` */
@@ -100,13 +99,13 @@ CREATE TABLE `detail_transaksi` (
   PRIMARY KEY (`id_detail_transaksi`),
   KEY `FK_detail_transaksi` (`id_master_transaksi`),
   KEY `FK_transaksi_buku` (`id_buku`),
-  CONSTRAINT `FK_detail_transaksi` FOREIGN KEY (`id_master_transaksi`) REFERENCES `master_transaksi` (`id_master_transaksi`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_transaksi_buku` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id_buku`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_detail_transaksi` FOREIGN KEY (`id_master_transaksi`) REFERENCES `master_transaksi` (`id_master_transaksi`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_transaksi_buku` FOREIGN KEY (`id_buku`) REFERENCES `buku` (`id_buku`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_transaksi` */
 
-insert  into `detail_transaksi`(`id_detail_transaksi`,`id_master_transaksi`,`id_buku`,`jumlah_buku`) values (1,1,6,10),(2,3,2,22),(3,1,2,11),(4,2,1,37),(5,4,3,23);
+insert  into `detail_transaksi`(`id_detail_transaksi`,`id_master_transaksi`,`id_buku`,`jumlah_buku`) values (1,1,6,10),(3,1,2,11),(4,2,1,37),(5,4,3,23),(6,6,3,12),(7,6,5,12),(8,7,1,19),(9,7,3,179);
 
 /*Table structure for table `kategori` */
 
@@ -132,19 +131,19 @@ CREATE TABLE `master_transaksi` (
   `id_wilayah` int(11) NOT NULL,
   `tgl_pinjam` datetime DEFAULT NULL,
   `tgl_harus_kembali` datetime DEFAULT NULL,
- `tgl_kembali` datetime DEFAULT NULL,
+  `tgl_kembali` datetime DEFAULT NULL,
   `denda` int(11) DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id_master_transaksi`),
   KEY `FK_master_transaksi` (`id_anggota`),
   KEY `FK_wilayah` (`id_wilayah`),
-  CONSTRAINT `FK_master_transaksi` FOREIGN KEY (`id_anggota`) REFERENCES `anggota` (`id_anggota`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_wilayah` FOREIGN KEY (`id_wilayah`) REFERENCES `wilayah` (`id_wilayah`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_master_transaksi` FOREIGN KEY (`id_anggota`) REFERENCES `anggota` (`id_anggota`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_wilayah` FOREIGN KEY (`id_wilayah`) REFERENCES `wilayah` (`id_wilayah`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `master_transaksi` */
 
-insert  into `master_transaksi`(`id_master_transaksi`,`id_anggota`,`id_wilayah`,`tgl_pinjam`,`tgl_harus_kembali`,`tgl_kembali`,`denda`,`status`) values (1,2,1,'2016-05-10 17:08:27','2016-05-21 00:50:36','2016-05-21 01:17:39',NULL,1),(2,7,1,'2016-05-10 17:09:04','2016-05-21 00:51:00',NULL,NULL,0),(3,9,2,'2016-05-10 17:09:20','2016-05-21 00:51:04','2016-05-21 18:11:44',NULL,1),(4,8,4,'2016-05-10 17:09:33','2016-05-21 00:51:06',NULL,NULL,0),(5,5,1,'2016-05-10 17:09:51','2016-05-21 00:51:12',NULL,NULL,0);
+insert  into `master_transaksi`(`id_master_transaksi`,`id_anggota`,`id_wilayah`,`tgl_pinjam`,`tgl_harus_kembali`,`tgl_kembali`,`denda`,`status`) values (1,2,1,'2016-05-10 17:08:27','2016-05-21 00:50:36','2016-05-21 01:17:39',NULL,1),(2,7,1,'2016-05-10 17:09:04','2016-05-21 00:51:00','2016-05-24 00:06:07',3000,1),(4,8,4,'2016-05-10 17:09:33','2016-05-21 00:51:06','2016-05-24 00:05:54',3000,1),(6,4,2,'2016-05-23 16:39:12','2016-05-28 16:39:12','2016-05-24 00:06:17',0,1),(7,1,1,'2016-05-24 00:08:57','2016-05-29 00:08:57',NULL,NULL,0);
 
 /*Table structure for table `penerbit` */
 
@@ -253,6 +252,21 @@ DROP TABLE IF EXISTS `transaksi_pinjam`;
  `status` tinyint(1) 
 )*/;
 
+/*Table structure for table `transaksi_pinjam_detail` */
+
+DROP TABLE IF EXISTS `transaksi_pinjam_detail`;
+
+/*!50001 DROP VIEW IF EXISTS `transaksi_pinjam_detail` */;
+/*!50001 DROP TABLE IF EXISTS `transaksi_pinjam_detail` */;
+
+/*!50001 CREATE TABLE  `transaksi_pinjam_detail`(
+ `id_detail_transaksi` int(11) ,
+ `id_master_transaksi` int(11) ,
+ `id_buku` int(11) ,
+ `judul_buku` varchar(150) ,
+ `jumlah_buku` int(11) 
+)*/;
+
 /*View structure for view administrator */
 
 /*!50001 DROP TABLE IF EXISTS `administrator` */;
@@ -280,6 +294,13 @@ DROP TABLE IF EXISTS `transaksi_pinjam`;
 /*!50001 DROP VIEW IF EXISTS `transaksi_pinjam` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `transaksi_pinjam` AS (select `t`.`id_master_transaksi` AS `id_transaksi`,`t`.`id_anggota` AS `id_anggota`,`a`.`nama_anggota` AS `nama_anggota`,`w`.`nama_wilayah` AS `wilayah`,`t`.`tgl_pinjam` AS `tgl_pinjam`,`t`.`tgl_harus_kembali` AS `tgl_harus_kembali`,`t`.`tgl_kembali` AS `tgl_kembali`,`t`.`denda` AS `denda`,`t`.`status` AS `status` from ((`master_transaksi` `t` left join `anggota` `a` on((`t`.`id_anggota` = `a`.`id_anggota`))) left join `wilayah` `w` on((`t`.`id_wilayah` = `w`.`id_wilayah`))) order by `t`.`id_master_transaksi`) */;
+
+/*View structure for view transaksi_pinjam_detail */
+
+/*!50001 DROP TABLE IF EXISTS `transaksi_pinjam_detail` */;
+/*!50001 DROP VIEW IF EXISTS `transaksi_pinjam_detail` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `transaksi_pinjam_detail` AS (select `t`.`id_detail_transaksi` AS `id_detail_transaksi`,`t`.`id_master_transaksi` AS `id_master_transaksi`,`b`.`id_buku` AS `id_buku`,`b`.`judul_buku` AS `judul_buku`,`t`.`jumlah_buku` AS `jumlah_buku` from (`detail_transaksi` `t` left join `buku` `b` on((`t`.`id_buku` = `b`.`id_buku`)))) */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

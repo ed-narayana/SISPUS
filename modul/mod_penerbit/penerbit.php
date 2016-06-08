@@ -16,7 +16,7 @@ function data_penerbit(){
 	';
 	foreach($penerbit as $data){
 		$id = $data['id_penerbit'];
-		$update = base_url('modul/mod_penerbit/aksi_penerbit.php?act=update_penerbit&id='.$data['id_penerbit']);
+		$update = base_url('index.php?page=penerbit&act=update_penerbit&id='.$data['id_penerbit']);
 		$delete = base_url('modul/mod_penerbit/aksi_penerbit.php?act=delete_penerbit&id='.$data['id_penerbit']);
 		echo '
 			<tr>
@@ -44,11 +44,7 @@ function data_penerbit(){
 
 function form_tambah(){
 	$action = base_url("modul/mod_penerbit/aksi_penerbit.php?act=simpan_penerbit");
-	$penerbit = fetch_data('penerbit');
-	$list = '';
-	foreach ($penerbit as $data) {
-		$list .= '<option value="'.$data['id_penerbit'].'">'.$data['nama_penerbit'].''.$data['alamat_penerbit'].''.$data['telp_penerbit']' </option>';
-	}
+	
 	echo '
 		<div class="panel panel-default">
 			<div class="panel-heading">Tambah Data</div>
@@ -129,7 +125,7 @@ function form_update(){
 }
 
 function form($act){
-	if($act == 'update'){
+	if($act == 'update_penerbit'){
 		form_update();
 	} else {
 		form_tambah();

@@ -8,8 +8,8 @@ switch($_GET['act']){
   case 'simpan_penerbit' :
 		if(isset($_POST['Submit'])){
 			$input = array(
-				'nama_penerbit' => '"'.$_POST['nama_penerbit'].'"'
-				'alamat_penerbit' => '"'.$_POST['alamat_penerbit'].'"'
+				'nama_penerbit' => '"'.$_POST['nama_penerbit'].'"',
+				'alamat_penerbit' => '"'.$_POST['alamat_penerbit'].'"',
 				'telp_penerbit' => '"'.$_POST['telp_penerbit'].'"'
 			);
 			$table = 'penerbit';
@@ -25,8 +25,8 @@ switch($_GET['act']){
 		if(isset($_POST['Submit'])){
 			$clause = array('id_penerbit' => $_POST['id_penerbit']);
 			$input = array(
-				'nama_penerbit' => '"'.$_POST['nama_penerbit'].'"'
-				'alamat_penerbit' => '"'.$_POST['alamat_penerbit'].'"'
+				'nama_penerbit' => '"'.$_POST['nama_penerbit'].'"',
+				'alamat_penerbit' => '"'.$_POST['alamat_penerbit'].'"',
 				'telp_penerbit' => '"'.$_POST['telp_penerbit'].'"'
 			);
 			$table = 'penerbit';
@@ -40,7 +40,7 @@ switch($_GET['act']){
 	break;
 	case 'delete_penerbit':
 		$table  = 'penerbit';
-		$clause = array('id_penerbit' => $_GET['id_penerbit']);
+		$clause = array('id_penerbit' => $_GET['id']);
 		$delete = delete($table, $clause);
 		if($delete){
 			set_flashdata('sukses', 'Delete data id : '.$clause['id_penerbit'].' berhasil.');
