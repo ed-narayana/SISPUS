@@ -8,11 +8,11 @@ switch($_GET['act']){
 			$input = array(
 				'nama_anggota' => '"'.$_POST['nama'].'"',
 				'jenis_kelamin'	 => '"'.$_POST['jk'].'"',
-				'alamat'	 => '"'($_POST['alamat']).'"',
-				'no_telp'	 => '"'($_POST['np_telp']).'"',
-				'tempat_lahir'	 => '"'($_POST['tmpt_lahir']).'"',
-				'tanggal_lahir'	 => '"'($_POST['tanggal_lahir']).'"',
-				'tanggal_gabung'	 => '"'($_POST['tanggal_gabung']).'"',
+				'alamat'	 => '"'.$_POST['alamat'].'"',
+				'no_telp'	 => '"'$_POST['telpon'].'"',
+				'tempat_lahir'	 => '"'.$_POST['tempat'].'"',
+				'tanggal_lahir'	 => '"'.$_POST['tanggal_lahir'].'"',
+				'tanggal_gabung'	 => '"'.$_POST['tanggal_gabung'].'"',
 				'id_wilayah_anggota' => $_POST['wilayah']
 			);
 			$table = 'anggota';
@@ -23,17 +23,18 @@ switch($_GET['act']){
 				set_flashdata('error', 'Data nama : '.$input['nama_anggota'].' gagal ditambah');
 			}
 		}
-		}
-
+		
+break;
 	case 'update':
 		$clause = array('id_anggota' => $_POST['id']);
-			$input = array('nama_anggota' => '"'.$_POST['nama'].'"',
+			$input = array(
+				'nama_anggota' => '"'.$_POST['nama'].'"',
 				'jenis_kelamin'	 => '"'.$_POST['jk'].'"',
-				'alamat'	 => '"'($_POST['alamat']).'"',
-				'no_telp'	 => '"'($_POST['no_telp']).'"',
-				'tempat_lahir'	 => '"'($_POST['tmpt_lahir']).'"',
-				'tanggal_lahir'	 => '"'($_POST['tanggal_lahir']).'"',
-				'tanggal_gabung'	 => '"'($_POST['tanggal_gabung']).'"',
+				'alamat'	 => '"'.$_POST['alamat'].'"',
+				'no_telp'	 => '"'.$_POST['telpon'].'"',
+				'tempat_lahir'	 => '"'.$_POST['tempat'].'"',
+				'tanggal_lahir'	 => '"'.$_POST['tanggal_lahir'].'"',
+				'tanggal_gabung'	 => '"'.$_POST['tanggal_gabung'].'"',
 				'id_wilayah_anggota' => $_POST['wilayah']
 			);
 			$table = 'anggota';
