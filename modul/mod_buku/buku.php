@@ -21,7 +21,7 @@ function data_buku(){
 	';
 	foreach($buku as $data){
 		$id = $data['id'];
-		$update = base_url('modul/mod_buku/aksi_buku.php?act=update&id='.$data['id']);
+		$update = base_url('index.php?page=buku&act=update&id='.$data['id']);
 		$delete = base_url('modul/mod_buku/aksi_buku.php?act=delete&id='.$data['id']);
 		echo '
 			<tr>
@@ -32,7 +32,7 @@ function data_buku(){
 				<td>'.$data['kategori'].'</td>				
 				<td>'.$data['penulis'].'</td>
   				<td>'.$data['isbn'].'</td>
-				<td>'.$data['Jumlah'].'</td>
+				<td>'.$data['jumlah'].'</td>
 				<td>'.$data['tanggal'].'</td>
 				
 
@@ -158,7 +158,7 @@ function form_update(){
 	$kategori = fetch_data('kategori');
 	$list3= '';
 	foreach ($kategori as $cat) {
-		if($kategori['id_kategori'] == $data[0]['id_kategori_buku']){
+		if($cat['id_kategori'] == $data[0]['id_kategori_buku']){
 			$list3 .= '<option value="'.$cat['id_kategori'].'" selected="selected">'.$cat['nama_kategori'].'</option>';	
 		} else {
 			$list3 .= '<option value="'.$cat['id_kategori'].'">'.$cat['nama_kategori'].'</option>';
@@ -182,10 +182,11 @@ $penerbit = fetch_data('penerbit');
 			$list1 .= '<option value="'.$penerbitan['id_penerbit'].'">'.$penerbitan['nama_penerbit'].'</option>';
 		}
 	}
-$penerbit = fetch_data('penulis');
+$penulis = fetch_data('penulis');
 	$list2 = '';
 	foreach ($penulis as $author) {
 		if($author['id_penulis'] == $data[0]['id_penulis_buku']){
+	
 			$list2 .= '<option value="'.$author['id_penulis'].'" selected="selected">'.$author['nama_penulis'].'</option>';	
 		} else {
 			$list2 .= '<option value="'.$author['id_penulis'].'">'.$author['nama_penulis'].'</option>';
@@ -194,33 +195,34 @@ $penerbit = fetch_data('penulis');
 	echo '
 		<div class="panel panel-default">
 			<div class="panel-heading">Update Data</div>
-			<div class="panel-body">
+			  <div class="panel-body">
 				<form action="'.$action.'" method="POST">
 					<div class="form-group">
 						<label for="id">ID</label>
-						<input type="text" class="form-control" id="id" name="id_buku" value="'.$data[0]['id_buku'].'" readonly="readonly" />
+						<input type="text" class="form-control" id="id" name="id" value="'.$data[0]['id_buku'].'" readonly="readonly" />
 					</div>
+
 
 					<div class="form-group">
 						<label for="nama">Nama Buku</label>
-						<input type="text" class="form-control" id="nama" name="nama_buku" value="'.$data[0]['nama_buku'].'" />
+						<input type="text" class="form-control" id="nama" name="nama" value="'.$data[0]['judul_buku'].'" />
 					</div>
 
 					<div class="form-group">
 						<label for="nama">ISBN</label>
-						<input type="text" class="form-control" id="nama" name="ISBN" value="'.$data[0]['ISBN'].'" />
+						<input type="text" class="form-control" id="nama" name="isbn" value="'.$data[0]['isbn'].'" />
 			
 
 
 					<div class="form-group">
 						<label for="nama">Jumlah</label>
-						<input type="number" class="form-control" id="nama" name="Jumlah" value="'.$data[0]['jum'].'i" />
+						<input type="number" class="form-control" id="nama" name="jum" value="'.$data[0]['jumlah_buku'].'" />
 					</div>
 		
 					<div class="form-group">
 						<label for="nama">Tanggal terbit</label>
 
-						<input type="date" class="form-control" id="nama" name="tanggal_terbit" value="'.$data[0]['tanggal_terbit'].'" />
+						<input type="date" class="form-control" id="nama" name="tglter" value="'.$data[0]['tanggal_terbit'].'"/>
 					</div>
 
 					<div class="form-group">
@@ -254,13 +256,14 @@ $penerbit = fetch_data('penulis');
 
 
 					<div class="form-group">
-						<input type=penerbitrbitlass="btn btn-primary" name="Submit" value="Update Data" />
+						<input type="submit" class="btn btn-primary" name="Submit" value="Update Data" />
 						&nbsp;
-						<inp1upenerbit"reset" penerbitbtn btn-default" name="Reset" value="Reset" />
+						<input type="reset" class="btn btn-default" name="Reset" value="Reset" />
 						&nbsp;
 						<a href="'.base_url('index.php?page=buku').'" class="btn btn-default">Kembali</a>
 					</div>
 				</form>
+			  </div>
 			</div>
 		</div>
 	';
