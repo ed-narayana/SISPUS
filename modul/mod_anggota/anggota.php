@@ -22,7 +22,7 @@ function data_anggota(){
 	';
 	foreach($anggota as $data){
 		$id = $data['id'];
-		$update = base_url('modul/mod_anggota/aksi_anggota.php?act=update&id='.$data['id']);
+		$update = base_url('index.php?page=anggota&act=update&id='.$data['id']);
 		$delete = base_url('modul/mod_anggota/aksi_anggota.php?act=delete&id='.$data['id']);
 		echo '
 			<tr>
@@ -70,11 +70,11 @@ function form_tambah(){
 				<form action="'.$action.'" method="POST">
 					<div class="form-group">
 						<label for="nama">Nama Anggota</label>
-						<input type="text" class="form-control" id="nama_anggota" name="nama_anggota" require/>
+						<input type="text" class="form-control" id="nama_anggota" name="nama" require/>
 						<label for ="nama"> jenis kelamin </label>
 						<div class="radio">
-  							<label><input type="radio"  id="jk" name="optradio" value="L">Laki-Laki</label>
-						    <label><input type="radio" id="jk" name="optradio" value="P">Perempuan</label>
+  							<label><input type="radio"  id="jk" name="jk" value="L" checked>Laki-Laki</label>
+						    <label><input type="radio" id="jk" name="jk" value="P">Perempuan</label>
 						</div>
 
 						<label for="nama">Alamat</label>
@@ -84,7 +84,7 @@ function form_tambah(){
 						<label for="nama"> Tanggal Lahir</label>
 						<input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" require/>
 						<label for="nama">Tempat Lahir</label>
-						<input type="text" class="form-control" id="tempat" name="Tempat" require/>
+						<input type="text" class="form-control" id="tempat" name="tempat" require/>
 							<label for="nama"> Tanggal Gabung</label>
 					
 						<input type="text" class="form-control" id="tgl_gbng" name="tanggal_gabung" value="'.$tgl_gbng.'" readonly="readonly" />
@@ -119,17 +119,20 @@ function form_update(){
 	);
 	$limit  = 1;
 	$data   = fetch_data('anggota', $clause, $limit);
-	if(!$data){
+	if(!$data)
+	{
 		set_flashdata('error', 'Data id : '.$_GET['id'].' tidak ditemukan.');
 		redirect(base_url('index.php?page=anggota'));
 	}
 	$action = base_url('modul/mod_anggota/aksi_anggota.php?act=update');
-$wilayah = fetch_data('wilayah');
+	$wilayah = fetch_data('wilayah');
 	$list = '';
 	foreach ($wilayah as $cabang) {
-		if($cabang['id_wilayah'] == $data[0]['id_wilayah_buku']){
+		if($cabang['id_wilayah'] == $data[0]['id_wilayah_anggota'])
+		{
 			$list .= '<option value="'.$cabang['id_wilayah'].'" selected="selected">'.$cabang['nama_wilayah'].'</option>';	
-		} else {
+		} else
+		{
 			$list .= '<option value="'.$cabang['id_wilayah'].'">'.$cabang['nama_wilayah'].'</option>';
 		}
 	}
@@ -140,19 +143,20 @@ $wilayah = fetch_data('wilayah');
 				<form action="'.$action.'" method="POST">
 					<div class="form-group">
 						<label for="id">ID</label>
-						<input type="text" class="form-control" id="id" name="id_anggota" value="'.$data[0]['id_anggota'].'" readonly="readonly" />
+						<input type="text" class="form-control" id="id" name="id" value="'.$data[0]['id_anggota'].'" readonly="readonly" />
 					</div>
 
 					<div class="form-group">
 						<label for="nama">Nama Anggota</label>
-						<input type="text" class="form-control" id="nama" name="nama_anggota" value="'.$data[0]['nama_anggota'].'" />
+						<input type="text" class="form-control" id="nama" name="nama" value="'.$data[0]['nama_anggota'].'" />
 					</div>
 
 					<div class="form-group">
 						<label for="nama">Alamat Anggota</label>
-						<input type="text" class="form-control" id="nama" name="alamat_anggota" value="'.$data[0]['alamat_anggota'].'" />
+						<input type="text" class="form-control" id="nama" name="alamat" value="'.$data[0]['alamat'].'" />
 					</div>
 						<div class="radio">
+
   							<label><input type="radio" name="jk" value="L">Laki-Laki</label>
 						    <label><input type="radio" name="jk" value="P">Perempuan</label>
 						</div>
@@ -160,7 +164,7 @@ $wilayah = fetch_data('wilayah');
 
 					<div class="form-group">
 						<label for="nama">Telepon</label>
-						<input type="text" class="form-control" id="nama" name="telpon" value="'.$data[0]['telp_anggota'].'" />
+						<input type="text" class="form-control" id="nama" name="telpon" value="'.$data[0]['no_telp'].'" />
 					</div>
 					<div class="form-group">
 						<label for="nama">Tempat Lahir</label>
@@ -172,7 +176,7 @@ $wilayah = fetch_data('wilayah');
 					</div>
 					<div class="form-group">
 						<label for="nama">Tanggal Gabung</label>
-						<input type="date" class="form-control" id="nama" name="tanggal_gabung" value="'.$data[0]['tanggal_gabung'].'" />
+						<input type="date" class="form-control" id="nama" name="tanggal_gabung" value="'.$data[0]['tanggal_gabung'].'" readonly="readonly"  />
 					</div>
 					<div class="form-group">
 						<label for="wilayah">Wilayah</label>

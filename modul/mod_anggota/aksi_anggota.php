@@ -3,19 +3,22 @@ session_start();
 include "../../config/library_config.php";
 include "../../config/fungsi_model_data.php";
 switch($_GET['act']){
+		case 'id_anggota'	:
+  break;
 	case 'tambah':
-		if(isset($_POST['Submit'])){
+		if(isset($_POST['Submit']))
+		{
 			$input = array(
-				'nama_anggota' => '"'.$_POST['nama'].'"',
-				'jenis_kelamin'	 => '"'.$_POST['jk'].'"',
-				'alamat'	 => '"'.$_POST['alamat'].'"',
-				'no_telp'	 => '"'$_POST['telpon'].'"',
-				'tempat_lahir'	 => '"'.$_POST['tempat'].'"',
-				'tanggal_lahir'	 => '"'.$_POST['tanggal_lahir'].'"',
+				'nama_anggota' 		 => '"'.$_POST['nama'].'"',
+				'jenis_kelamin'	 	 => '"'.$_POST['jk'].'"',
+				'alamat'	 		 => '"'.$_POST['alamat'].'"',
+				'no_telp'	 		 => '"'.$_POST['telpon'].'"',
+				'tempat_lahir'	 	 => '"'.$_POST['tempat'].'"',
+				'tanggal_lahir'		 => '"'.$_POST['tanggal_lahir'].'"',
 				'tanggal_gabung'	 => '"'.$_POST['tanggal_gabung'].'"',
 				'id_wilayah_anggota' => $_POST['wilayah']
 			);
-			$table = 'anggota';
+			$table = 'anggota';		
 			$insert = insert($table, $input);
 			if($insert){
 				set_flashdata('sukses', 'Data nama : '.$input['nama_anggota'].' berhasil ditambah');
@@ -26,25 +29,28 @@ switch($_GET['act']){
 		
 break;
 	case 'update':
+	if(isset($_POST['Submit']))
+	{
 		$clause = array('id_anggota' => $_POST['id']);
 			$input = array(
-				'nama_anggota' => '"'.$_POST['nama'].'"',
-				'jenis_kelamin'	 => '"'.$_POST['jk'].'"',
-				'alamat'	 => '"'.$_POST['alamat'].'"',
-				'no_telp'	 => '"'.$_POST['telpon'].'"',
-				'tempat_lahir'	 => '"'.$_POST['tempat'].'"',
-				'tanggal_lahir'	 => '"'.$_POST['tanggal_lahir'].'"',
+				'nama_anggota'   	 => '"'.$_POST['nama'].'"',
+				'jenis_kelamin'	 	 => '"'.$_POST['jk'].'"',
+				'alamat'	     	 => '"'.$_POST['alamat'].'"',
+				'no_telp'	    	 => '"'.$_POST['telpon'].'"',
+				'tempat_lahir'	 	 => '"'.$_POST['tempat'].'"',
+				'tanggal_lahir'		 => '"'.$_POST['tanggal_lahir'].'"',
 				'tanggal_gabung'	 => '"'.$_POST['tanggal_gabung'].'"',
-				'id_wilayah_anggota' => $_POST['wilayah']
-			);
+				'id_wilayah_anggota' =>    '"'.$_POST['wilayah'].'"'
+			);		
 			$table = 'anggota';
 			$update = update($table, $input, $clause);
-			if($update){
+			if($update)
+			{
 				set_flashdata('sukses', 'Update data id : '.$clause['id_anggota'].' berhasil.');
 			} else {
 				set_flashdata('error', 'Update data id : '.$clause['id_anggota'].' gagal.');
 			}	
-
+	}
 	break;
 	
 	case 'delete':
@@ -56,6 +62,7 @@ break;
 		} else {
 			set_flashdata('error', 'Delete data id : '.$clause['id_anggota'].' gagal.');
 		}
-	break;
+break;
 }
+
 redirect(base_url("index.php?page=anggota"));
