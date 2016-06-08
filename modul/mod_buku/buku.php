@@ -3,38 +3,37 @@ $act = isset($_GET['act']) ? $_GET['act'] : "";
 
 function data_buku(){
 	//fetch data
-	$penerbit = fetch_data('buku');
+	$buku = fetch_data('book');
 	echo '
 		<table class="table table-condensed table-bordered">
 			<tr>
 				<th>ID buku</th>
-				<th>Nama buku/th>
+				<th>Nama buku</th>
 				<TH>penerbit</th>
 				<th>Wilayah</th>
 				<th>kategori</th>
 				<th>Penulis</th>
-
 				<th>ISBN</th>
-				<th>Jumlah/th>
+				<th>Jumlah</th>
 				<th> Tanggal terbit</th>
 				<th colspan="2">Aksi</th>
 			</tr>
 	';
 	foreach($buku as $data){
-		$id = $data['id_buku'];
-		$update = base_url('modul/mod_buku/aksi_buku.php?act=update_buku&id='.$data['id_buku']);
-		$delete = base_url('modul/mod_buku/aksi_buku.php?act=delete_buku&id='.$data['id_buku']);
+		$id = $data['id'];
+		$update = base_url('modul/mod_buku/aksi_buku.php?act=update&id='.$data['id']);
+		$delete = base_url('modul/mod_buku/aksi_buku.php?act=delete&id='.$data['id']);
 		echo '
 			<tr>
 				<td>'.$id.'</td>
-				<td>'.$data['nama_buku'].'</td>
-				<td>'.$data['ISBN'].'</td>
-				<td>'.$data['Penerbit'].'</td>
-				<td>'.$data['Penulis'].'</td>				
-				<td>'.$data['kategori'].'</td>
-  				<td>'.$data['Jumlah'].'</td>
-				<td>'.$data['tanggal_terbit'].'</td>
-				
+				<td>'.$data['judul'].'</td>
+				<td>'.$data['penerbit'].'</td>
+				<td>'.$data['lokasi'].'</td>
+				<td>'.$data['kategori'].'</td>				
+				<td>'.$data['penulis'].'</td>
+  				<td>'.$data['isbn'].'</td>
+				<td>'.$data['Jumlah'].'</td>
+				<td>'.$data['tanggal'].'</td>
 				
 
 
@@ -47,7 +46,7 @@ function data_buku(){
 				<td align="center">
 					<a href="'.$delete.'" data-confirm="Anda yakin ingin menghapus data id : '.$id.' ?">
 						<span class="glyphicon glyphicon-trash"></span>
-						<span class="sbukuDelete</span>
+						<span class="sr-only">Delete</span>	</a>
 					</a>
 				</td>
 			</tr>
@@ -57,7 +56,9 @@ function data_buku(){
 }
 
 function form_tambah(){
+
 	$action = base_url("modul/mod_buku/aksi_buku.php?act=tambah");
+	
 	$wilayah = fetch_data('wilayah');
 	$list = '';
 	foreach ($wilayah as $data) {
@@ -79,28 +80,25 @@ function form_tambah(){
 		$list2 .= '<option value="'.$data2['id_penulis'].'">'.$data2['nama_penulis'].'</option>';
 	}
 	echo '
-		<div class="panel panel-default">
+			<div class="panel panel-default">
 			<div class="panel-heading">Tambah Data</div>
 			<div class="panel-body">
-				<form action="'.$action.'" method="POST">
+<form action="'.$action.'" method="POST">
 					<div class="form-group">
 						<label for="nama">Nama buku</label>
-						<input type="text" class="form-control" id="nama" name="nama_buku" require/>
-						
-
-						<label for="nama">ISBNb</label>
-						<input type="text" class="form-control" id="nama" name="ISBN" require/>
+						<input type="text" class="form-control" id="nama" name="nama" require/>
+						<label for="nama">ISBN</label>
+						<input type="text" class="form-control" id="ISBN" name="isbn" require/>
 						<label for="nama">Jumlah</label>
-						<input type="number" class="form-control" id="no_telp" name="telpon" require/>
+						<input type="number" class="form-control" id="no_telp" name="jum" require/>
 						<label for="nama"> Tanggal terbit </label>
-						<input type="date" class="form-control" id="tanggal_terbit" name="taggs" require/>
-
+						<input type="date" class="form-control" id="tanggal_terbit" name="tglter" require/>
 							<div class="form-group">
 						<label for="wilayah">kategori</label>
 						<select class="form-control" id="kategori" name="kategori">
 							'.$list3.'
 						</select>
-				  
+				  </div>
 
 							<div class="form-group">
 						<label for="wilayah">Wilayah</label>
@@ -109,10 +107,10 @@ function form_tambah(){
 						</select>
 				  
 					</div>
-					</div>
+			
 			<div class="form-group">
 						<label for="wilayah">Penerbit</label>
-						<select class="form-control" id="wilayah" name="penulis">
+						<select class="form-control" id="penerbit" name="penerbit">
 							'.$list1.'
 						</select>
 				  
@@ -131,9 +129,12 @@ function form_tambah(){
 						&nbsp;
 						<input type="reset" class="btn btn-default" name="Reset" value="Reset" />
 					</div>
+					</div>
 				</form>
 			</div>
+				
 		</div>
+		
 	';
 }
 
@@ -147,22 +148,22 @@ function form_update(){
 	);
 	$limit  = 1;
 	$data   = fetch_data('buku', $clause, $limit);
+	
 	if(!$data){
 		set_flashdata('error', 'Data id : '.$_GET['id'].' tidak ditemukan.');
 		redirect(base_url('index.php?page=buku'));
 	}
 	$action = base_url('modul/mod_buku/aksi_buku.php?act=update');
+	
 	$kategori = fetch_data('kategori');
 	$list3= '';
 	foreach ($kategori as $cat) {
 		if($kategori['id_kategori'] == $data[0]['id_kategori_buku']){
-			$list .= '<option value="'.$cat['id_kategori'].'" selected="selected">'.$cat['nama_kategori'].'</option>';	
+			$list3 .= '<option value="'.$cat['id_kategori'].'" selected="selected">'.$cat['nama_kategori'].'</option>';	
 		} else {
-			$list .= '<option value="'.$cabang['id_kategori'].'">'.$cabang['nama_kategori'].'</option>';
+			$list3 .= '<option value="'.$cat['id_kategori'].'">'.$cat['nama_kategori'].'</option>';
 		}
 	}
-
-
 $wilayah = fetch_data('wilayah');
 	$list = '';
 	foreach ($wilayah as $cabang) {
